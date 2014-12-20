@@ -10,4 +10,5 @@ set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Adding the executable.
 add_library(jsonr "src/parser.cpp"
-                  "src/json.cpp")
+                  "src/json.cpp"
+                  "src/load.cpp")
