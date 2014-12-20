@@ -23,11 +23,11 @@ enum JType {
 };
 
 // Declaring each of the types.
-typedef std::vector<std::string, JValue> JObject;
-typedef std::vector<JValue>              JArray;
-typedef double                           JNumber;
-typedef std::string                      JString;
-typedef bool                             JBool;
+typedef std::map<std::string, JValue> JObject;
+typedef std::vector<JValue>           JArray;
+typedef double                        JNumber;
+typedef std::string                   JString;
+typedef bool                          JBool;
 
 // A generic JSON value that can represent any type of JSON.
 class JValue {
