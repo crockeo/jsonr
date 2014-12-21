@@ -12,7 +12,7 @@
 // Code //
 
 // Parsing out a block of JSON from a string.
-JValue parseJSON(std::string);
+JValue parseJSON(const std::string&);
 
 // Parsing out a block of JSON from an istream.
 JValue parseJSON(std::istream&);
