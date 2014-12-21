@@ -6,10 +6,8 @@ Makefile
 CTestTestFile.cmake
 Testing/
 
-            CTestTestfile.cmake
-                Development/
-                    Testing/
-                        src/testing.cpp
-
 # Ignoring the build file.
 Development/
+
+# Un-ignoring the source-testing directory.
+!src/testing/
