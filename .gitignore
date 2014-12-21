@@ -3,6 +3,13 @@ cmake_install.cmake
 CMakeCache.txt
 CMakeFiles/
 Makefile
+CTestTestFile.cmake
+Testing/
+
+            CTestTestfile.cmake
+                Development/
+                    Testing/
+                        src/testing.cpp
 
 # Ignoring the build file.
-build/
+Development/
