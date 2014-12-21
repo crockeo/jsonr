@@ -38,22 +38,19 @@ std::string stripWhitespace(const std::string& str) {
 
 // Parsing out a block of JSON from a string.
 JValue parseJSON(const std::string& str) {
+    std::string stripped = stripWhitespace(str);
 
-    return JValue();
+    return JValue(stripped);
 }
 
 // Parsing out a block of JSON from an istream.
 JValue parseJSON(std::istream& stream) {
     std::string line, all;
 
-    // Reading all of the lines.
     while (!stream.eof()) {
         std::getline(stream, line);
         all += line;
     }
-
-    // TODO: TURN AN IFSTREAM INTO AN ISTREAM.
-    //       PLS.
 
     return parseJSON(all);
 }
