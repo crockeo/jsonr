@@ -17,7 +17,5 @@ JValue loadJSON(std::string path) {
     if (!in.good())
         return JValue();
 
-    // TODO: Convert this ifstream into an istream so it'll actually work.
-
-    return parseJSON(n);
+    return parseJSON(in);
 }

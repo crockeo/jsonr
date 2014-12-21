@@ -16,7 +16,7 @@ JValue parseJSON(std::string str) {
 }
 
 // Parsing out a block of JSON from an istream.
-JValue parseJSON(std::istream stream) {
+JValue parseJSON(std::istream& stream) {
     std::string line, all;
 
     // Reading all of the lines.
@@ -24,6 +24,9 @@ JValue parseJSON(std::istream stream) {
         std::getline(stream, line);
         all += line;
     }
+
+    // TODO: TURN AN IFSTREAM INTO AN ISTREAM.
+    //       PLS.
 
     return parseJSON(all);
 }

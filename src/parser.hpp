@@ -15,6 +15,6 @@
 JValue parseJSON(std::string);
 
 // Parsing out a block of JSON from an istream.
-JValue parseJSON(std::istream);
+JValue parseJSON(std::istream&);
 
 #endif
