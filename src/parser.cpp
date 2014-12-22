@@ -59,7 +59,12 @@ JValue parseJSONString(const std::string& str) {
 
 // Trying to specifically parse out a JSON boolean.
 JValue parseJSONBool(const std::string& str) {
-    return JValue();
+    if (str.compare("true") == 0)
+        return JValue(true);
+    else if (str.compare("false") == 0)
+        return JValue(false);
+    else
+        return JValue();
 }
 
 // Parsing out a block of JSON from a string.
