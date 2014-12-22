@@ -54,7 +54,11 @@ JValue parseJSONArray(const std::string& str) {
 
 // Trying to specifically parse out a JSON number.
 JValue parseJSONNumber(const std::string& str) {
-    return JValue();
+    try {
+        return JValue(stod(str));
+    } catch (const std::invalid_argument& ia) {
+        return JValue();
+    }
 }
 
 // Trying to specifically parse out a JSON string.
