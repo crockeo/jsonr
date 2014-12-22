@@ -2,8 +2,6 @@
 
 //////////////
 // Includes //
-#include <iostream>
-
 #include "../parser.hpp"
 #include "../json.hpp"
 
@@ -22,11 +20,6 @@ int runTest02() {
     JValue negativeVal = parseJSON("-12345");
     JValue floatingPosVal = parseJSON("54321.12345");
     JValue floatingNegVal = parseJSON("-54321.12345");
-
-    std::cout << positiveVal.jNumber()    << std::endl;
-    std::cout << negativeVal.jNumber()    << std::endl;
-    std::cout << floatingPosVal.jNumber() << std::endl;
-    std::cout << floatingNegVal.jNumber() << std::endl;
 
     if (!positiveVal.isNumber() || !around(12345, positiveVal.jNumber(), 1))
         return 1;
