@@ -10,13 +10,15 @@
 //////////
 // Code //
 
-// Running the test.
+// Testing the parseJSON function for parsing a boolean.
 int runTest00() {
-    JValue val = parseJSON("hello world");
-    if (val.isNull())
-        return 1;
+    JValue tVal = parseJSON("true");
+    JValue fVal = parseJSON("false");
 
-    std::cout << val.jString() << std::endl;
+    if (tVal.isBool() && fVal.isBool() &&
+        tVal.jBool() && !fVal.jBool()) {
+        return 0;
+    }
 
-    return 0;
+    return 1;
 }

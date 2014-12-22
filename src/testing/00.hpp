@@ -4,7 +4,7 @@
 //////////
 // Code //
 
-// Running the test.
+// Testing the parseJSON function for parsing a boolean.
 int runTest00();
 
 #endif
