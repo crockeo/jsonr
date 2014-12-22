@@ -4,6 +4,7 @@
 // Includes //
 #include <istream>
 #include <string>
+#include <vector>
 
 #include "json.hpp"
 
@@ -36,11 +37,48 @@ std::string stripWhitespace(const std::string& str) {
     return ret;
 }
 
+// Trying to specifically parse out a JSON object.
+JValue parseJSONObject(const std::string& str) {
+    return JValue();
+}
+
+// Trying to specifically parse out a JSON array.
+JValue parseJSONArray(const std::string& str) {
+    return JValue();
+}
+
+// Trying to specifically parse out a JSON number.
+JValue parseJSONNumber(const std::string& str) {
+    return JValue();
+}
+
+// Trying to specifically parse out a JSON string.
+JValue parseJSONString(const std::string& str) {
+    return JValue();
+}
+
+// Trying to specifically parse out a JSON boolean.
+JValue parseJSONBool(const std::string& str) {
+    return JValue();
+}
+
 // Parsing out a block of JSON from a string.
 JValue parseJSON(const std::string& str) {
-    std::string stripped = stripWhitespace(str);
+    std::vector<JValue (*)(const std::string&)> fns;
+    fns.push_back(&parseJSONObject);
+    fns.push_back(&parseJSONArray);
+    fns.push_back(&parseJSONNumber);
+    fns.push_back(&parseJSONString);
+    fns.push_back(&parseJSONBool);
 
-    return JValue(stripped);
+    JValue val;
+    for (auto it = fns.begin(); it != fns.end(); it++) {
+        val = (*it)(str);
+        if (!val.isNull())
+            return val;
+    }
+
+    return JValue();
 }
 
 // Parsing out a block of JSON from an istream.
