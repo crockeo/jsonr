@@ -26,6 +26,11 @@ bool isWhitespace(char c) {
     return false;
 }
 
+// Checking if a character is a quote.
+bool isQuote(char c) {
+    return c == '"' || c == '\'';
+}
+
 // Stripping the whitespace out of a string.
 std::string stripWhitespace(const std::string& str) {
     std::string ret;
@@ -54,6 +59,25 @@ JValue parseJSONNumber(const std::string& str) {
 
 // Trying to specifically parse out a JSON string.
 JValue parseJSONString(const std::string& str) {
+    if (isQuote(*str.begin()) && isQuote(*(str.end() - 1))) {
+        bool ok = false;
+        std::string accum;
+
+        for (auto it = str.begin() + 1; it != str.end() - 1; it++) {
+            std::cout << accum;
+            if (!ok && isQuote(*it))
+                return JValue();
+            else if ((*it) == '\\')
+                ok = true;
+            else
+                ok = false;
+
+            accum.push_back(*it);
+        }
+
+        return JValue(accum);
+    }
+
     return JValue();
 }
 
