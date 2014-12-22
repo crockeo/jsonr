@@ -5,6 +5,7 @@
 #include <istream>
 #include <string>
 #include <vector>
+#include <tuple>
 
 #include "json.hpp"
 
@@ -24,6 +25,18 @@ bool isWhitespace(char c) {
     }
 
     return false;
+}
+
+// Returns the strings before and after a delimiter character.
+std::tuple<std::string, std::string> untilChar(const std::string& str, char delim) {
+    int n;
+    for (n = 0; n < str.size(); n++)
+        if (str[n] == delim)
+            break;
+
+    if (n + 1 >= str.size())
+        return std::make_tuple(str, "");
+    return std::make_tuple(str.substr(0, n), str.substr(n + 1, str.size() - 1));
 }
 
 // Checking if a character is a quote.
@@ -49,6 +62,19 @@ JValue parseJSONObject(const std::string& str) {
 
 // Trying to specifically parse out a JSON array.
 JValue parseJSONArray(const std::string& str) {
+    if (str[0] == '[' && str[str.size() - 1] == ']') {
+        std::string useStr = str.substr(1, str.size() - 2);
+        if (useStr.compare("") == 0)
+            return JValue();
+
+        std::vector<JValue> jValues;
+        std::tuple<std::string, std::string> tup;
+        for (tup = untilChar(useStr, ','); std::get<0>(tup).compare("") != 0; tup = untilChar(std::get<1>(tup), ','))
+            jValues.push_back(parseJSON(std::get<0>(tup)));
+
+        return JValue(jValues);
+    }
+
     return JValue();
 }
 
