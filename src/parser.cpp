@@ -64,7 +64,6 @@ JValue parseJSONString(const std::string& str) {
         std::string accum;
 
         for (auto it = str.begin() + 1; it != str.end() - 1; it++) {
-            std::cout << accum;
             if (!ok && isQuote(*it))
                 return JValue();
             else if ((*it) == '\\')
