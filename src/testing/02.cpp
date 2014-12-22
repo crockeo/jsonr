@@ -4,15 +4,10 @@
 // Includes //
 #include "../parser.hpp"
 #include "../json.hpp"
+#include "utils.hpp"
 
 //////////
 // Code //
-
-// Checking if a value is around the target.
-bool around(double target, double num, double range) {
-    return num >= target - range &&
-           num <= target + range;
-}
 
 // Testing the parseJSON function for parsing a number.
 int runTest02() {
