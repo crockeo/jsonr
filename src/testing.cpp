@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "testing/00.hpp"
+#include "testing/01.hpp"
 
 //////////
 // Code //
@@ -18,7 +19,8 @@ int main(int argc, char** argv) {
     switch (n) {
     case 0:
         return runTest00();
-        break;
+    case 1:
+        return runTest01();
     default:
         break;
     }
