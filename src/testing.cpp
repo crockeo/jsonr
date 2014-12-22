@@ -4,6 +4,7 @@
 
 #include "testing/00.hpp"
 #include "testing/01.hpp"
+#include "testing/02.hpp"
 
 //////////
 // Code //
@@ -21,6 +22,8 @@ int main(int argc, char** argv) {
         return runTest00();
     case 1:
         return runTest01();
+    case 2:
+        return runTest02();
     default:
         break;
     }

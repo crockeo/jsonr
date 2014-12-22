@@ -17,7 +17,8 @@ add_library(jsonr "src/parser.cpp"
 add_executable(testing "src/testing.cpp")
 
 add_library(testing-lib "src/testing/00.cpp"
-                        "src/testing/01.cpp")
+                        "src/testing/01.cpp"
+                        "src/testing/02.cpp")
 
 target_link_libraries(testing jsonr testing-lib)
 
@@ -26,3 +27,4 @@ enable_testing()
 # Adding in all of the tests.
 add_test(test00 testing 0)
 add_test(test01 testing 1)
+add_test(test02 testing 2)
