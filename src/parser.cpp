@@ -120,6 +120,13 @@ JValue parseJSONBool(const std::string& str) {
         return JValue();
 }
 
+// Trying to specifically parse out the null JSON value.
+JValue parseJSONNull(const std::string& str) {
+    if (str.compare("null") == 0)
+        return JValue();
+    return JValue();
+}
+
 // Parsing out a block of JSON from a string.
 JValue parseJSON(const std::string& str) {
     std::vector<JValue (*)(const std::string&)> fns;
@@ -128,6 +135,7 @@ JValue parseJSON(const std::string& str) {
     fns.push_back(&parseJSONNumber);
     fns.push_back(&parseJSONString);
     fns.push_back(&parseJSONBool);
+    fns.push_back(&parseJSONNull);
 
     JValue val;
     for (auto it = fns.begin(); it != fns.end(); it++) {
