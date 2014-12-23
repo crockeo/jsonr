@@ -16,10 +16,13 @@
 class ParseException : public std::exception {
 public:
     // Creating a parse exception.
-    ParseException();
+    ParseException(std::string);
 
     // Returning a string to refer to this exception.
     const char* what() const throw();
+
+private:
+    std::string type;
 };
 
 // Parsing out a block of JSON from a string.

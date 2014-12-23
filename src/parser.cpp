@@ -13,11 +13,13 @@
 // Code //
 
 // Creating a parse exception.
-ParseException::ParseException() {}
+ParseException::ParseException(std::string type) {
+    this->type = type;
+}
 
 // Returning a string to refer to this exception.
 const char* ParseException::what() const throw() {
-    return "Failed to parse a piece of JSON.";
+    return ("Failed to parse a " + this->type + " piece of JSON.").c_str();
 }
 
 // Checking if a given string is whitespace.
@@ -95,7 +97,7 @@ JValue parseJSONArray(const std::string& str) {
         return JValue(jValues);
     }
 
-    return JValue();
+    throw ParseException("parseJSONArray");
 }
 
 // Trying to specifically parse out a JSON number.
@@ -103,7 +105,7 @@ JValue parseJSONNumber(const std::string& str) {
     try {
         return JValue(stod(str));
     } catch (const std::invalid_argument& ia) {
-        return JValue();
+        throw ParseException("parseJSONNumber");
     }
 }
 
@@ -128,7 +130,7 @@ JValue parseJSONString(const std::string& str) {
         return JValue(accum);
     }
 
-    return JValue();
+    throw ParseException("parseJSONString");
 }
 
 // Trying to specifically parse out a JSON boolean.
@@ -137,15 +139,14 @@ JValue parseJSONBool(const std::string& str) {
         return JValue(true);
     else if (str.compare("false") == 0)
         return JValue(false);
-    else
-        return JValue();
+    throw ParseException("parseJSONBool");
 }
 
 // Trying to specifically parse out the null JSON value.
 JValue parseJSONNull(const std::string& str) {
     if (str.compare("null") == 0)
         return JValue();
-    return JValue();
+    throw ParseException("parseJSONNull");
 }
 
 // Parsing out a block of JSON from a string.
@@ -165,8 +166,7 @@ JValue parseJSON(const std::string& str) throw (ParseException) {
             return val;
     }
 
-    throw ParseException();
-    return JValue();
+    throw ParseException("parseJSON");
 }
 
 // Parsing out a block of JSON from an istream.
