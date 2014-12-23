@@ -10,6 +10,7 @@ set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Adding the library.
 add_library(jsonr "src/parsestream.cpp"
+                  "src/streamutils.cpp"
                   "src/parser.cpp"
                   "src/json.cpp"
                   "src/load.cpp")
