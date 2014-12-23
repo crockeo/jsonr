@@ -152,19 +152,12 @@ const char* ParseException::what() const throw() {
 
 // Parsing out a block of JSON from a ParseStream.
 JValue parseJSON(ParseStream& ps) throw(ParseException) {
-    //std::vector<JValue (*)(const std::string&)> fns;
-    //fns.push_back(&parseJSONObject);
-    //fns.push_back(&parseJSONArray);
-    //fns.push_back(&parseJSONNumber);
-    //fns.push_back(&parseJSONString);
-    //fns.push_back(&parseJSONBool);
-    //fns.push_back(&parseJSONNull);
+    std::vector<JValue (*)(ParseStream&)> fns;
 
-    //JValue val;
-    //for (auto it = fns.begin(); it != fns.end(); it++) {
-        //try { return (*it)(ps); }
-        //catch (const ParseException& e) { }
-    //}
+    for (auto it = fns.begin(); it != fns.end(); it++) {
+        try { return (*it)(ps); }
+        catch (const ParseException& e) { }
+    }
 
     throw ParseException("parseJSON");
 }
