@@ -7,6 +7,7 @@
 #include <istream>
 #include <string>
 
+#include "parsestream.hpp"
 #include "json.hpp"
 
 //////////
@@ -24,6 +25,9 @@ public:
 private:
     std::string type;
 };
+
+// Parsing out a block of JSON from a ParseStream.
+JValue parseJSON(ParseStream&) throw(ParseException);
 
 // Parsing out a block of JSON from a string.
 JValue parseJSON(const std::string&) throw(ParseException);

@@ -7,6 +7,7 @@
 #include <vector>
 #include <tuple>
 
+#include "parsestream.hpp"
 #include "json.hpp"
 
 //////////
@@ -149,10 +150,16 @@ JValue parseJSONNull(const std::string& str) throw(ParseException) {
     throw ParseException("parseJSONNull");
 }
 
-#include <iostream>
+// Parsing out a block of JSON from a ParseStream.
+JValue parseJSON(ParseStream& ps) throw(ParseException) {
+    throw ParseException("parseJSON");
+}
 
 // Parsing out a block of JSON from a string.
 JValue parseJSON(const std::string& str) throw(ParseException) {
+    ParseStream ps;
+    return parseJSON(ps);
+
     std::vector<JValue (*)(const std::string&)> fns;
     fns.push_back(&parseJSONObject);
     fns.push_back(&parseJSONArray);
