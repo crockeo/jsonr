@@ -78,7 +78,7 @@ JValue parseJSONArray(const std::string& str) {
         std::vector<JValue> jValues;
         std::tuple<std::string, std::string> tup;
         for (tup = untilChar(useStr, ','); std::get<0>(tup).compare("") != 0; tup = untilChar(std::get<1>(tup), ','))
-            jValues.push_back(parseJSON(std::get<0>(tup)));
+            jValues.push_back(parseJSON(stripWhitespace(std::get<0>(tup))));
 
         return JValue(jValues);
     }
@@ -98,11 +98,12 @@ JValue parseJSONNumber(const std::string& str) {
 // Trying to specifically parse out a JSON string.
 JValue parseJSONString(const std::string& str) {
     if (isQuote(*str.begin()) && isQuote(*(str.end() - 1))) {
+        char fq = *str.begin();
         bool ok = false;
         std::string accum;
 
         for (auto it = str.begin() + 1; it != str.end() - 1; it++) {
-            if (!ok && isQuote(*it))
+            if (!ok && *it == fq)
                 return JValue();
             else if ((*it) == '\\')
                 ok = true;
@@ -152,6 +153,7 @@ JValue parseJSON(const std::string& str) throw (ParseException) {
             return val;
     }
 
+    throw ParseException();
     return JValue();
 }
 

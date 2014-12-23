@@ -48,7 +48,7 @@ bool testStrArray(const JValue& strArray) {
             if (v.isNull())
                 out = "null";
             else
-                out = v.jArray()[i].jString();
+                out = v.jString();
 
             std::cerr << out
                       << " != "
