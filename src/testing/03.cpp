@@ -2,6 +2,7 @@
 
 //////////////
 // Includes //
+#include <iostream>
 #include <vector>
 
 #include "../parser.hpp"
@@ -12,7 +13,7 @@
 // Code //
 
 // Testing the number array.
-bool testNumArray(JValue numArray) {
+bool testNumArray(const JValue& numArray) {
     if (!numArray.isArray())
         return true;
     std::vector<JValue> vals = numArray.jArray();
@@ -25,12 +26,42 @@ bool testNumArray(JValue numArray) {
 }
 
 // Testing the string array.
-bool testStrArray(JValue strArray) {
+bool testStrArray(const JValue& strArray) {
+    if (!strArray.isArray())
+        return true;
+
+    auto validate = [](const JValue& str, const std::string& tStr) -> bool const {
+        if (!str.isString() || str.jString().compare(tStr) != 0)
+            return true;
+        return false;
+    };
+
+    std::vector<std::string> targets;
+    targets.push_back("testing");
+    targets.push_back("with spaces");
+    targets.push_back("and a 'quote");
+
+    for (int i = 0; i < targets.size(); i++) {
+        JValue v = strArray.jArray()[i];
+        if (validate(v, targets[i])) {
+            std::string out;
+            if (v.isNull())
+                out = "null";
+            else
+                out = v.jArray()[i].jString();
+
+            std::cerr << out
+                      << " != "
+                      << targets[i]
+                      << std::endl;
+        }
+    }
+
     return false;
 }
 
 // Testing the bool array.
-bool testBoolArray(JValue boolArray) {
+bool testBoolArray(const JValue& boolArray) {
     return false;
 }
 
