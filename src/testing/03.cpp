@@ -54,6 +54,8 @@ bool testStrArray(const JValue& strArray) {
                       << " != "
                       << targets[i]
                       << std::endl;
+
+            return true;
         }
     }
 
