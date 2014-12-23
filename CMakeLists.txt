@@ -9,7 +9,8 @@ set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/Development/lib")
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Adding the library.
-add_library(jsonr "src/parser.cpp"
+add_library(jsonr "src/parsestream.cpp"
+                  "src/parser.cpp"
                   "src/json.cpp"
                   "src/load.cpp")
 
