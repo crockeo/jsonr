@@ -52,13 +52,25 @@ bool isQuote(char c) {
     return c == '"' || c == '\'';
 }
 
-// Stripping the whitespace out of a string.
+// Stripping the whitespace out of a string. Unless it's within a pair of quote
+// characters. Then it doesn't. :)
 std::string stripWhitespace(const std::string& str) {
     std::string ret;
 
-    for (auto it = str.begin(); it != str.end(); it++)
-        if (!isWhitespace(*it))
+    bool mode = true;
+    char quoteChar = '\0';
+
+    for (auto it = str.begin(); it != str.end(); it++) {
+        if (isQuote(*it) && (quoteChar == '\0' || *it == quoteChar)) {
+            mode = !mode;
+            quoteChar = *it;
+        }
+
+        if (!mode)
             ret.push_back(*it);
+        else if (mode && !isWhitespace(*it))
+            ret.push_back(*it);
+    }
 
     return ret;
 }

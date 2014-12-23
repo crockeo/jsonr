@@ -39,7 +39,7 @@ bool testStrArray(const JValue& strArray) {
     std::vector<std::string> targets;
     targets.push_back("testing");
     targets.push_back("with spaces");
-    targets.push_back("and a 'quote");
+    targets.push_back("and a 'quote with spaces after!!!");
 
     for (int i = 0; i < targets.size(); i++) {
         JValue v = strArray.jArray()[i];
@@ -70,7 +70,7 @@ bool testBoolArray(const JValue& boolArray) {
 // Testing the Array portion of parseJSON.
 int runTest03() {
     JValue numArray  = parseJSON("[1, 2, 3, 4, 5]");
-    JValue strArray  = parseJSON("[\"testing\", \"with spaces\", \"and a 'quote\"]");
+    JValue strArray  = parseJSON("[\"testing\", \"with spaces\", \"and a 'quote with spaces after!!!\"]");
     JValue boolArray = parseJSON("[true, false, true]");
 
     if (testNumArray(numArray))
