@@ -39,7 +39,7 @@ bool isWhitespace(char c) {
 }
 
 // Returns the strings before and after a delimiter character.
-std::tuple<std::string, std::string> untilChar(const std::string& str, char delim) {
+std::tuple<std::string, std::string> untilChar(ParseStream& ps, char delim) {
     int n;
     for (n = 0; n < str.size(); n++)
         if (str[n] == delim)
@@ -57,7 +57,7 @@ bool isQuote(char c) {
 
 // Stripping the whitespace out of a string. Unless it's within a pair of quote
 // characters. Then it doesn't. :)
-std::string stripWhitespace(const std::string& str) {
+std::string stripWhitespace(ParseStream& ps) {
     std::string ret;
 
     bool mode = true;
@@ -79,12 +79,12 @@ std::string stripWhitespace(const std::string& str) {
 }
 
 // Trying to specifically parse out a JSON object.
-JValue parseJSONObject(const std::string& str) throw(ParseException) {
+JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
     throw ParseException("JObject");
 }
 
 // Trying to specifically parse out a JSON array.
-JValue parseJSONArray(const std::string& str) throw(ParseException) {
+JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
     if (str[0] == '[' && str[str.size() - 1] == ']') {
         std::string useStr = str.substr(1, str.size() - 2);
         if (useStr.compare("") == 0)
@@ -102,7 +102,7 @@ JValue parseJSONArray(const std::string& str) throw(ParseException) {
 }
 
 // Trying to specifically parse out a JSON number.
-JValue parseJSONNumber(const std::string& str) throw(ParseException) {
+JValue parseJSONNumber(ParseStream& ps) throw(ParseException) {
     try {
         return JValue(stod(str));
     } catch (const std::invalid_argument& ia) {
@@ -111,7 +111,7 @@ JValue parseJSONNumber(const std::string& str) throw(ParseException) {
 }
 
 // Trying to specifically parse out a JSON string.
-JValue parseJSONString(const std::string& str) throw(ParseException) {
+JValue parseJSONString(ParseStream& ps) throw(ParseException) {
     if (isQuote(*str.begin()) && isQuote(*(str.end() - 1))) {
         char fq = *str.begin();
         bool ok = false;
@@ -135,7 +135,7 @@ JValue parseJSONString(const std::string& str) throw(ParseException) {
 }
 
 // Trying to specifically parse out a JSON boolean.
-JValue parseJSONBool(const std::string& str) throw(ParseException) {
+JValue parseJSONBool(ParseStream& ps) throw(ParseException) {
     if (str.compare("true") == 0)
         return JValue(true);
     else if (str.compare("false") == 0)
@@ -144,7 +144,7 @@ JValue parseJSONBool(const std::string& str) throw(ParseException) {
 }
 
 // Trying to specifically parse out the null JSON value.
-JValue parseJSONNull(const std::string& str) throw(ParseException) {
+JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
     if (str.compare("null") == 0)
         return JValue();
     throw ParseException("parseJSONNull");
@@ -157,7 +157,7 @@ JValue parseJSON(ParseStream& ps) throw(ParseException) {
 
 // Parsing out a block of JSON from a string.
 JValue parseJSON(const std::string& str) throw(ParseException) {
-    ParseStream ps;
+    ParseStream ps(str);
     return parseJSON(ps);
 
     std::vector<JValue (*)(const std::string&)> fns;
