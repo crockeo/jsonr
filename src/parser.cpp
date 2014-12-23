@@ -12,6 +12,14 @@
 //////////
 // Code //
 
+// Creating a parse exception.
+ParseException::ParseException() {}
+
+// Returning a string to refer to this exception.
+const char* ParseException::what() const throw() {
+    return "Failed to parse a piece of JSON.";
+}
+
 // Checking if a given string is whitespace.
 bool isWhitespace(char c) {
     switch (c) {
@@ -128,7 +136,7 @@ JValue parseJSONNull(const std::string& str) {
 }
 
 // Parsing out a block of JSON from a string.
-JValue parseJSON(const std::string& str) {
+JValue parseJSON(const std::string& str) throw (ParseException) {
     std::vector<JValue (*)(const std::string&)> fns;
     fns.push_back(&parseJSONObject);
     fns.push_back(&parseJSONArray);
@@ -148,7 +156,7 @@ JValue parseJSON(const std::string& str) {
 }
 
 // Parsing out a block of JSON from an istream.
-JValue parseJSON(std::istream& stream) {
+JValue parseJSON(std::istream& stream) throw(ParseException) {
     std::string line, all;
 
     while (!stream.eof()) {
