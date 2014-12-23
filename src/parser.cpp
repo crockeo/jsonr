@@ -152,14 +152,6 @@ JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
 
 // Parsing out a block of JSON from a ParseStream.
 JValue parseJSON(ParseStream& ps) throw(ParseException) {
-    throw ParseException("parseJSON");
-}
-
-// Parsing out a block of JSON from a string.
-JValue parseJSON(const std::string& str) throw(ParseException) {
-    ParseStream ps(str);
-    return parseJSON(ps);
-
     std::vector<JValue (*)(const std::string&)> fns;
     fns.push_back(&parseJSONObject);
     fns.push_back(&parseJSONArray);
@@ -170,11 +162,17 @@ JValue parseJSON(const std::string& str) throw(ParseException) {
 
     JValue val;
     for (auto it = fns.begin(); it != fns.end(); it++) {
-        try { return (*it)(str); }
+        try { return (*it)(ps); }
         catch (const ParseException& e) { }
     }
 
     throw ParseException("parseJSON");
+}
+
+// Parsing out a block of JSON from a string.
+JValue parseJSON(const std::string& str) throw(ParseException) {
+    ParseStream ps(str);
+    return parseJSON(ps);
 }
 
 // Parsing out a block of JSON from an istream.
