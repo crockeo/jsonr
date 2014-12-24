@@ -8,6 +8,7 @@
 #include <tuple>
 
 #include "parsestream.hpp"
+#include "streamutils.hpp"
 #include "json.hpp"
 
 //////////
@@ -143,19 +144,41 @@ const char* ParseException::what() const throw() {
     //throw ParseException("parseJSONBool");
 //}
 
-//// Trying to specifically parse out the null JSON value.
-//JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
-    //if (str.compare("null") == 0)
-        //return JValue();
-    //throw ParseException("parseJSONNull");
-//}
+// Trying to specifically parse out the null JSON value.
+JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
+    consumeWhitespace(ps);
+
+    std::string str;
+    for (int i = 0; i < 4; i++) {
+        char c = ps.consume();
+        if (c == '\0')
+            break;
+
+        str.push_back(c);
+    }
+
+    if (str.compare("null"))
+        return JValue();
+    throw ParseException("parseJSONNull");
+}
+
+// Attempting to perform a parse - and then backing up on an error.
+JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(ParseException) {
+    int sl = ps.getLoc();
+    try { return parseFn(ps); }
+    catch (const ParseException& e) {
+        ps.back(ps.getLoc() - sl);
+        throw e;
+    }
+}
 
 // Parsing out a block of JSON from a ParseStream.
 JValue parseJSON(ParseStream& ps) throw(ParseException) {
     std::vector<JValue (*)(ParseStream&)> fns;
+    fns.push_back(&parseJSONNull);
 
     for (auto it = fns.begin(); it != fns.end(); it++) {
-        try { return (*it)(ps); }
+        try { return attemptParse(ps, *it); }
         catch (const ParseException& e) { }
     }
 
