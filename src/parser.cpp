@@ -24,28 +24,10 @@ const char* ParseException::what() const throw() {
     return ("Failed to parse a " + this->type + " piece of JSON.").c_str();
 }
 
-//// Trying to specifically parse out a JSON object.
-//JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
-    //throw ParseException("JObject");
-//}
-
-//// Trying to specifically parse out a JSON array.
-//JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
-    //if (str[0] == '[' && str[str.size() - 1] == ']') {
-        //std::string useStr = str.substr(1, str.size() - 2);
-        //if (useStr.compare("") == 0)
-            //return JValue();
-
-        //std::vector<JValue> jValues;
-        //std::tuple<std::string, std::string> tup;
-        //for (tup = untilChar(useStr, ','); std::get<0>(tup).compare("") != 0; tup = untilChar(std::get<1>(tup), ','))
-            //jValues.push_back(parseJSON(stripWhitespace(std::get<0>(tup))));
-
-        //return JValue(jValues);
-    //}
-
-    //throw ParseException("parseJSONArray");
-//}
+// Trying to specifically parse out a JSON object.
+JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
+    throw ParseException("JObject");
+}
 
 // Trying to specifically parse out a JSON array.
 JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
@@ -188,6 +170,7 @@ JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(Pars
 // Parsing out a block of JSON from a ParseStream.
 JValue parseJSON(ParseStream& ps) throw(ParseException) {
     std::vector<JValue (*)(ParseStream&)> fns;
+    fns.push_back(&parseJSONObject);
     fns.push_back(&parseJSONArray);
     fns.push_back(&parseJSONNumber);
     fns.push_back(&parseJSONString);
