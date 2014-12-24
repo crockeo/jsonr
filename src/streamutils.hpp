@@ -8,6 +8,9 @@
 //////////
 // Code //
 
+// Checking if a given character has whitespace in it.
+bool isWhitespace(char);
+
 // Consuming all of the whitespace in a ParseStream until it reaches a
 // non-whitespace character.
 int consumeWhitespace(ParseStream&);
