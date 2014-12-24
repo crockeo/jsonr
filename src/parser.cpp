@@ -24,6 +24,14 @@ const char* ParseException::what() const throw() {
     return ("Failed to parse a " + this->type + " piece of JSON.").c_str();
 }
 
+// Definitions for the functions.
+JValue parseJSONObject( ParseStream&) throw (ParseException);
+JValue parseJSONArray ( ParseStream&) throw (ParseException);
+JValue parseJSONNumbe ( ParseStream&) throw (ParseException);
+JValue parseJSONString( ParseStream&) throw (ParseException);
+JValue parseJSONBool  ( ParseStream&) throw (ParseException);
+JValue parseJSONNull  ( ParseStream&) throw (ParseException);
+
 // Trying to specifically parse out a JSON object.
 JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
     throw ParseException("JObject");
