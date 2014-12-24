@@ -24,61 +24,6 @@ const char* ParseException::what() const throw() {
     return ("Failed to parse a " + this->type + " piece of JSON.").c_str();
 }
 
-//// Checking if a given string is whitespace.
-//bool isWhitespace(char c) {
-    //switch (c) {
-    //case ' ':
-    //case '\t':
-    //case '\r':
-    //case '\n':
-        //return true;
-    //default:
-        //break;
-    //}
-
-    //return false;
-//}
-
-//// Returns the strings before and after a delimiter character.
-//std::tuple<std::string, std::string> untilChar(ParseStream& ps, char delim) {
-    //int n;
-    //for (n = 0; n < str.size(); n++)
-        //if (str[n] == delim)
-            //break;
-
-    //if (n + 1 >= str.size())
-        //return std::make_tuple(str, "");
-    //return std::make_tuple(str.substr(0, n), str.substr(n + 1, str.size() - 1));
-//}
-
-//// Checking if a character is a quote.
-//bool isQuote(char c) {
-    //return c == '"' || c == '\'';
-//}
-
-//// Stripping the whitespace out of a string. Unless it's within a pair of quote
-//// characters. Then it doesn't. :)
-//std::string stripWhitespace(ParseStream& ps) {
-    //std::string ret;
-
-    //bool mode = true;
-    //char quoteChar = '\0';
-
-    //for (auto it = str.begin(); it != str.end(); it++) {
-        //if (isQuote(*it) && (quoteChar == '\0' || *it == quoteChar)) {
-            //mode = !mode;
-            //quoteChar = *it;
-        //}
-
-        //if (!mode)
-            //ret.push_back(*it);
-        //else if (mode && !isWhitespace(*it))
-            //ret.push_back(*it);
-    //}
-
-    //return ret;
-//}
-
 //// Trying to specifically parse out a JSON object.
 //JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
     //throw ParseException("JObject");
