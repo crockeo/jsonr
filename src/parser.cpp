@@ -157,7 +157,7 @@ JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
         str.push_back(c);
     }
 
-    if (str.compare("null"))
+    if (str.compare("null") == 0)
         return JValue();
     throw ParseException("parseJSONNull");
 }
