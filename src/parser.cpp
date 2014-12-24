@@ -111,29 +111,58 @@ const char* ParseException::what() const throw() {
     //}
 //}
 
-//// Trying to specifically parse out a JSON string.
-//JValue parseJSONString(ParseStream& ps) throw(ParseException) {
-    //if (isQuote(*str.begin()) && isQuote(*(str.end() - 1))) {
-        //char fq = *str.begin();
-        //bool ok = false;
-        //std::string accum;
+// Trying to specifically parse out a JSON string.
+JValue parseJSONString(ParseStream& ps) throw(ParseException) {
+    consumeWhitespace(ps);
+    if (ps.peek() == '"') {
+        ps.consume();
 
-        //for (auto it = str.begin() + 1; it != str.end() - 1; it++) {
-            //if (!ok && *it == fq)
-                //return JValue();
-            //else if ((*it) == '\\')
-                //ok = true;
-            //else
-                //ok = false;
+        std::string str;
+        while (ps.peek() != '"') {
+            char c = ps.consume();
+            if (c == '\n')
+                throw ParseException("parseJSONString");
 
-            //accum.push_back(*it);
-        //}
+            if (c == '\\') {
+                char c2 = ps.consume();
 
-        //return JValue(accum);
-    //}
+                switch (c2) {
+                case '"':
+                    str.push_back('"');
+                    break;
+                case '\\':
+                    str.push_back('\\');
+                    break;
+                case '/':
+                    str.push_back('/');
+                case 'b':
+                    str.push_back('\b');
+                    break;
+                case 'f':
+                    str.push_back('\f');
+                    break;
+                case 't':
+                    str.push_back('\t');
+                    break;
+                case 'r':
+                    str.push_back('\r');
+                    break;
+                case 'n':
+                    str.push_back('\n');
+                    break;
+                default:
+                    throw ParseException("parseJSONString");
+                    break;
+                }
+            } else
+                str.push_back(c);
+        }
 
-    //throw ParseException("parseJSONString");
-//}
+        return JValue(str);
+    }
+
+    throw ParseException("parseJSONString");
+}
 
 // Trying to specifically parse out a JSON boolean.
 JValue parseJSONBool(ParseStream& ps) throw(ParseException) {
@@ -177,6 +206,7 @@ JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(Pars
 // Parsing out a block of JSON from a ParseStream.
 JValue parseJSON(ParseStream& ps) throw(ParseException) {
     std::vector<JValue (*)(ParseStream&)> fns;
+    fns.push_back(&parseJSONString);
     fns.push_back(&parseJSONBool);
     fns.push_back(&parseJSONNull);
 
