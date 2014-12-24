@@ -47,13 +47,41 @@ const char* ParseException::what() const throw() {
     //throw ParseException("parseJSONArray");
 //}
 
+#include <iostream>
+
+// Trying to specifically parse out a JSON array.
+JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
+    consumeWhitespace(ps);
+
+    if (ps.consume() == '[') {
+        std::vector<JValue> values;
+        while (true) {
+            consumeWhitespace(ps);
+            values.push_back(parseJSON(ps));
+            consumeWhitespace(ps);
+
+            char c = ps.consume();
+            if (c == ']')
+                break;
+            else if (c != ',') {
+                std::cout << "Failing thataway.\n";
+                throw ParseException("parseJSONArray");
+            }
+        }
+
+        return JValue(values);
+    }
+
+    throw ParseException("parseJSONArray");
+}
+
 // Trying to specifically parse out a JSON number.
 JValue parseJSONNumber(ParseStream& ps) throw(ParseException) {
     consumeWhitespace(ps);
 
     std::string str;
     bool first = true;
-    while (!ps.eof() && !isWhitespace(ps.peek())) {
+    while (!ps.eof() && !isDelimiter(ps.peek())) {
         char c = ps.consume();
 
         if (first && c == '-') {
@@ -115,6 +143,7 @@ JValue parseJSONString(ParseStream& ps) throw(ParseException) {
                 str.push_back(c);
         }
 
+        ps.consume();
         return JValue(str);
     }
 
@@ -126,7 +155,7 @@ JValue parseJSONBool(ParseStream& ps) throw(ParseException) {
     consumeWhitespace(ps);
     std::string str;
 
-    while (!ps.eof() && !isWhitespace(ps.peek()))
+    while (!ps.eof() && !isDelimiter(ps.peek()))
         str.push_back(ps.consume());
 
     if (str.compare("true") == 0)
@@ -142,7 +171,7 @@ JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
     consumeWhitespace(ps);
     std::string str;
 
-    while (!ps.eof() && !isWhitespace(ps.peek()))
+    while (!ps.eof() && !isDelimiter(ps.peek()))
         str.push_back(ps.consume());
 
     if (str.compare("null") == 0)
@@ -163,6 +192,7 @@ JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(Pars
 // Parsing out a block of JSON from a ParseStream.
 JValue parseJSON(ParseStream& ps) throw(ParseException) {
     std::vector<JValue (*)(ParseStream&)> fns;
+    fns.push_back(&parseJSONArray);
     fns.push_back(&parseJSONNumber);
     fns.push_back(&parseJSONString);
     fns.push_back(&parseJSONBool);

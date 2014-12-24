@@ -20,6 +20,11 @@ bool isWhitespace(char c) {
     }
 }
 
+// Checking if a given character is a delimiter.
+bool isDelimiter(char c) {
+    return isWhitespace(c) || c == ',' || c == ']' || c == '}';
+}
+
 // Consuming all of the whitespace in a ParseStream until it reaches a
 // non-whitespace character.
 int consumeWhitespace(ParseStream& ps) {
