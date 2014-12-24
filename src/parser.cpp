@@ -47,8 +47,6 @@ const char* ParseException::what() const throw() {
     //throw ParseException("parseJSONArray");
 //}
 
-#include <iostream>
-
 // Trying to specifically parse out a JSON array.
 JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
     consumeWhitespace(ps);
@@ -63,10 +61,8 @@ JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
             char c = ps.consume();
             if (c == ']')
                 break;
-            else if (c != ',') {
-                std::cout << "Failing thataway.\n";
+            else if (c != ',')
                 throw ParseException("parseJSONArray");
-            }
         }
 
         return JValue(values);
