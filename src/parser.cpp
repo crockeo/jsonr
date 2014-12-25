@@ -58,7 +58,9 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
                 break;
             else if (c != ',')
                 throw ParseException("JObject");
-       }
+        }
+
+        return JValue(valueMap);
     }
 
     throw ParseException("JObject");
