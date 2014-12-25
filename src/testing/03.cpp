@@ -12,6 +12,11 @@
 //////////
 // Code //
 
+// Testing the empty array.
+bool testEmptArray(const JValue& emptArray) {
+    return !(emptArray.isArray() && emptArray.jArray().size() == 0);
+}
+
 // Testing the number array.
 bool testNumArray(const JValue& numArray) {
     if (!numArray.isArray())
@@ -69,10 +74,13 @@ bool testBoolArray(const JValue& boolArray) {
 
 // Testing the Array portion of parseJSON.
 int runTest03() {
+    JValue emptArray = parseJSON("[]");
     JValue numArray  = parseJSON("[1, 2, 3, 4, 5]");
     JValue strArray  = parseJSON("[\"testing\", \"with spaces\", \"and a 'quote with spaces after!!!\"]");
     JValue boolArray = parseJSON("[true, false, true]");
 
+    if (testEmptArray(emptArray))
+        return 1;
     if (testNumArray(numArray))
         return 1;
     if (testStrArray(strArray))
