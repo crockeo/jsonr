@@ -8,8 +8,6 @@
 //////////
 // Code //
 
-#include <iostream>
-
 // Testing the simple object.
 bool testSimpleObject(JValue simpleObject) {
     if (!simpleObject.isObject())
@@ -17,17 +15,11 @@ bool testSimpleObject(JValue simpleObject) {
 
     std::map<std::string, JValue> map = simpleObject.jObject();
 
-    std::cout << "YIS.\n";
-
     if (map.count("test") == 0)
         return true;
 
-    std::cout << "YIS.\n";
-
     if (!map["test"].isBool())
         return true;
-
-    std::cout << "YIS.\n";
 
     if (map["test"].jBool() != true)
         return true;

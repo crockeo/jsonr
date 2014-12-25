@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include <map>
 
 #include "parsestream.hpp"
 #include "streamutils.hpp"
@@ -41,7 +42,7 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
 
         while (true) {
             consumeWhitespace(ps);
-            JValue key = parseJSONString(ps);
+            std::string key = parseJSONString(ps).jString();
 
             consumeWhitespace(ps);
 
@@ -51,6 +52,8 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
             consumeWhitespace(ps);
 
             JValue val = parseJSON(ps);
+
+            valueMap.insert(std::pair<std::string, JValue>(key, val));
 
             consumeWhitespace(ps);
             char c = ps.consume();
