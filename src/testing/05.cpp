@@ -46,7 +46,7 @@ bool testSimpleObject(JValue simpleObject) {
 
 // Attempting to test parseJSON for 'null' values.
 int runTest05() {
-    JValue emptyObject = parseJSON("{}");
+    JValue emptyObject = parseJSON("{ }");
     JValue simpleObject = parseJSON("{ \"test\": true }");
 
     if (testEmptyObject(emptyObject))

@@ -2,7 +2,6 @@
 
 //////////////
 // Includes //
-#include <iostream>
 #include <vector>
 
 #include "../parser.hpp"
@@ -54,11 +53,6 @@ bool testStrArray(const JValue& strArray) {
                 out = "null";
             else
                 out = v.jString();
-
-            std::cerr << out
-                      << " != "
-                      << targets[i]
-                      << std::endl;
 
             return true;
         }

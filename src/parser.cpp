@@ -39,23 +39,24 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
 
     if (ps.consume() == '{') {
         std::map<std::string, JValue> valueMap;
+        bool first = true;
 
         while (true) {
             consumeWhitespace(ps);
-            std::string key = parseJSONString(ps).jString();
+            if (first && ps.peek() == '}')
+                break;
 
+            std::string key = parseJSONString(ps).jString();
             consumeWhitespace(ps);
 
             if (ps.consume() != ':')
                 throw ParseException("JObject");
 
             consumeWhitespace(ps);
-
             JValue val = parseJSON(ps);
-
             valueMap.insert(std::pair<std::string, JValue>(key, val));
-
             consumeWhitespace(ps);
+
             char c = ps.consume();
             if (c == '}')
                 break;
@@ -75,8 +76,13 @@ JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
 
     if (ps.consume() == '[') {
         std::vector<JValue> values;
+        bool first = true;
+
         while (true) {
             consumeWhitespace(ps);
+            if (first && ps.peek() == ']')
+                break;
+
             values.push_back(parseJSON(ps));
             consumeWhitespace(ps);
 
@@ -85,6 +91,7 @@ JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
                 break;
             else if (c != ',')
                 throw ParseException("parseJSONArray");
+            first = false;
         }
 
         return JValue(values);
