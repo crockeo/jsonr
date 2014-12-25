@@ -9,7 +9,7 @@
 // Code //
 
 // Testing the empty object.
-bool testEmptyObject(JValue emptyObject) {
+bool testEmptyObject(const JValue& emptyObject) {
     if (!emptyObject.isObject())
         return true;
 
@@ -26,7 +26,7 @@ bool testEmptyObject(JValue emptyObject) {
 }
 
 // Testing the simple object.
-bool testSimpleObject(JValue simpleObject) {
+bool testSimpleObject(const JValue& simpleObject) {
     if (!simpleObject.isObject())
         return true;
 
@@ -44,14 +44,24 @@ bool testSimpleObject(JValue simpleObject) {
     return false;
 }
 
+// Testing the complex object.
+bool testComplexObject(const JValue& complexObject) {
+    return false;
+}
+
 // Attempting to test parseJSON for 'null' values.
 int runTest05() {
     JValue emptyObject = parseJSON("{ }");
     JValue simpleObject = parseJSON("{ \"test\": true }");
 
+    // TODO: Make the complex object a little less empty.
+    JValue complexObject = parseJSON("{}");
+
     if (testEmptyObject(emptyObject))
         return 1;
     if (testSimpleObject(simpleObject))
+        return 1;
+    if (testComplexObject(complexObject))
         return 1;
 
     return 0;
