@@ -34,6 +34,33 @@ JValue parseJSONNull  ( ParseStream&) throw (ParseException);
 
 // Trying to specifically parse out a JSON object.
 JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
+    consumeWhitespace(ps);
+
+    if (ps.consume() == '{') {
+        std::map<std::string, JValue> valueMap;
+
+        while (true) {
+            consumeWhitespace(ps);
+            JValue key = parseJSONString(ps);
+
+            consumeWhitespace(ps);
+
+            if (ps.consume() != ':')
+                throw ParseException("JObject");
+
+            consumeWhitespace(ps);
+
+            JValue val = parseJSON(ps);
+
+            consumeWhitespace(ps);
+            char c = ps.consume();
+            if (c == '}')
+                break;
+            else if (c != ',')
+                throw ParseException("JObject");
+       }
+    }
+
     throw ParseException("JObject");
 }
 

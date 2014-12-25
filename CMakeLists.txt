@@ -23,7 +23,8 @@ add_library(testing-lib "src/testing/utils.cpp"
                         "src/testing/01.cpp"
                         "src/testing/02.cpp"
                         "src/testing/03.cpp"
-                        "src/testing/04.cpp")
+                        "src/testing/04.cpp"
+                        "src/testing/05.cpp")
 
 target_link_libraries(testing jsonr testing-lib)
 
