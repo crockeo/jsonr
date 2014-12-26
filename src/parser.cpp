@@ -50,7 +50,7 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
             consumeWhitespace(ps);
 
             if (ps.consume() != ':')
-                throw ParseException("JObject");
+                throw ParseException("parseJSONObject");
 
             consumeWhitespace(ps);
             JValue val = parseJSON(ps);
@@ -61,13 +61,13 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
             if (c == '}')
                 break;
             else if (c != ',')
-                throw ParseException("JObject");
+                throw ParseException("parseJSONObject");
         }
 
         return JValue(valueMap);
     }
 
-    throw ParseException("JObject");
+    throw ParseException("parseJSONObject");
 }
 
 // Trying to specifically parse out a JSON array.
@@ -188,7 +188,7 @@ JValue parseJSONBool(ParseStream& ps) throw(ParseException) {
     else if (str.compare("false") == 0)
         return JValue(false);
 
-    throw ParseException("JSONBool");
+    throw ParseException("parseJSONBool");
 }
 
 // Trying to specifically parse out the null JSON value.
