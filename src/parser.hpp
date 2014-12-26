@@ -34,10 +34,10 @@ private:
 };
 
 // Parsing out a block of JSON from a ParseStream.
-JValue parseJSON(ParseStream&) throw(ParseException);
+JValue parseJSON(ParseStream) throw(ParseException);
 
 // Parsing out a block of JSON from a string.
-JValue parseJSON(const std::string&) throw(ParseException);
+JValue parseJSON(const std::string) throw(ParseException);
 
 // Parsing out a block of JSON from an istream.
 JValue parseJSON(std::istream&) throw(ParseException);

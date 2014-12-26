@@ -230,7 +230,7 @@ JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(Pars
 }
 
 // Parsing out a block of JSON from a ParseStream.
-JValue parseJSON(ParseStream& ps) throw(ParseException) {
+JValue parseJSON(ParseStream ps) throw(ParseException) {
     std::vector<JValue (*)(ParseStream&)> fns;
     fns.push_back(&parseJSONObject);
     fns.push_back(&parseJSONArray);
@@ -251,7 +251,7 @@ JValue parseJSON(ParseStream& ps) throw(ParseException) {
 }
 
 // Parsing out a block of JSON from a string.
-JValue parseJSON(const std::string& str) throw(ParseException) {
+JValue parseJSON(const std::string str) throw(ParseException) {
     ParseStream ps(str);
     return parseJSON(ps);
 }
