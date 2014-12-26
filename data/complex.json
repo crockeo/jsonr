@@ -1,0 +1,45 @@
+{
+  "_id": "549d99dee80226183c018588",
+  "index": 0,
+  "guid": "1db598d0-3333-4aea-aa5e-4be986236e56",
+  "isActive": false,
+  "balance": "$2,983.05",
+  "picture": "http://placehold.it/32x32",
+  "age": 34,
+  "eyeColor": "brown",
+  "name": "Hale Bridges",
+  "gender": "male",
+  "company": "ENTROPIX",
+  "email": "halebridges@entropix.com",
+  "phone": "+1 (879) 419-2839",
+  "address": "256 Chester Court, Bergoo, Massachusetts, 3694",
+  "about": "Fugiat cupidatat adipisicing sit laborum reprehenderit occaecat laboris eiusmod et. Cupidatat dolore occaecat eu voluptate laborum non esse et labore laboris elit dolor adipisicing. Dolore ex eu et id Lorem. Irure ullamco enim nisi et excepteur ad elit ut sint magna magna magna dolore. Amet nisi et aliqua adipisicing duis et proident do. Velit sit elit tempor eu. Eu anim aliquip laboris nisi aliqua irure proident do.\r\n",
+  "registered": "2014-12-23T05:02:09 +05:00",
+  "latitude": 78.328387,
+  "longitude": -81.043504,
+  "tags": [
+    "voluptate",
+    "incididunt",
+    "consectetur",
+    "consectetur",
+    "voluptate",
+    "dolore",
+    "in"
+  ],
+  "friends": [
+    {
+      "id": 0,
+      "name": "Connie Douglas"
+    },
+    {
+      "id": 1,
+      "name": "Charlotte Collins"
+    },
+    {
+      "id": 2,
+      "name": "Esperanza Emerson"
+    }
+  ],
+  "greeting": "Hello, Hale Bridges! You have 6 unread messages.",
+  "favoriteFruit": "strawberry"
+}
