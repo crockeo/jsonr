@@ -152,6 +152,45 @@ bool testComplexObject(const JValue& complexObject) {
     } else
         return true;
 
+    if (map["friends"].isArray()) {
+        auto friends = map["friends"].jArray();
+        for (auto it = friends.begin(); it != friends.end(); it++)
+            if (!it->isObject())
+                return true;
+
+        for (int i = 0; i < friends.size(); i++) {
+            if (!friends[i].isObject())
+                return true;
+
+            auto smap = friends[i].jObject();
+            std::string name;
+
+            switch (i) {
+            case 0:
+                name = "Connie Douglas";
+                break;
+            case 1:
+                name = "Charlotte Collins";
+                break;
+            case 2:
+                name = "Esperanza Emerson";
+                break;
+            }
+
+            if (!smap["id"].isNumber() || (int)smap["id"].jNumber() != i)
+                return true;
+            if (!smap["name"].isString() || smap["name"].jString().compare(name) != 0)
+                return true;
+        }
+    } else
+        return true;
+
+    if (!map["greeting"].isString() || map["greeting"].jString().compare("Hello, Hale Bridges! You have 6 unread messages.") != 0)
+        return true;
+
+    if (!map["favoriteFruit"].isString() || map["favoriteFruit"].jString().compare("strawberry") != 0)
+        return true;
+
     return false;
 }
 
@@ -165,6 +204,7 @@ int runTest05() {
     if (!reader.good())
         return 2;
     JValue complexObject = parseJSON(reader);
+    reader.close();
 
     if (testEmptyObject(emptyObject))
         return 1;
