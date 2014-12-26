@@ -2,7 +2,6 @@
 
 //////////////
 // Includes //
-#include <iostream>
 #include <istream>
 #include <string>
 #include <vector>
@@ -29,9 +28,7 @@ ParseException::ParseException(std::string type, bool matched) {
 }
 
 // Returning a string to refer to this exception.
-const char* ParseException::what() const throw() {
-    return ("Failed to parse a " + this->type + " piece of JSON.\n").c_str();
-}
+const char* ParseException::what() const throw() { return this->type.c_str(); }
 
 // Returns if the ParseException matched.
 bool ParseException::didMatch() const {
@@ -63,7 +60,7 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
             consumeWhitespace(ps);
 
             if (ps.consume() != ':')
-                throw ParseException("parseJSONObject");
+                throw ParseException("In parseJSONObject, expected a ':'.\n");
 
             consumeWhitespace(ps);
             JValue val = parseJSON(ps);
@@ -74,13 +71,13 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
             if (c == '}')
                 break;
             else if (c != ',')
-                throw ParseException("parseJSONObject");
+                throw ParseException("In parseJSONObject, expected a ','.\n");
         }
 
         return JValue(valueMap);
     }
 
-    throw ParseException("parseJSONObject", false);
+    throw ParseException("", false);
 }
 
 // Trying to specifically parse out a JSON array.
@@ -103,14 +100,14 @@ JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
             if (c == ']')
                 break;
             else if (c != ',')
-                throw ParseException("parseJSONArray");
+                throw ParseException("In parseJSONArray, expected a ','.\n");
             first = false;
         }
 
         return JValue(values);
     }
 
-    throw ParseException("parseJSONArray", false);
+    throw ParseException("", false);
 }
 
 // Trying to specifically parse out a JSON number.
@@ -131,7 +128,7 @@ JValue parseJSONNumber(ParseStream& ps) throw(ParseException) {
             if (str.size() == 0)
                 throw ParseException("parseJSONNumber", false);
             else
-                throw ParseException("parseJSONNumber");
+                throw ParseException("In parseJSONNumber, unexpected characters.\n");
         }
     }
 
@@ -148,7 +145,7 @@ JValue parseJSONString(ParseStream& ps) throw(ParseException) {
         while (ps.peek() != '"') {
             char c = ps.consume();
             if (c == '\n')
-                throw ParseException("parseJSONString");
+                throw ParseException("In parseJSONString, unexpected character '\\n'.\n");
 
             if (c == '\\') {
                 char c2 = ps.consume();
@@ -178,7 +175,7 @@ JValue parseJSONString(ParseStream& ps) throw(ParseException) {
                     str.push_back('\n');
                     break;
                 default:
-                    throw ParseException("parseJSONString");
+                    throw ParseException("In parseJSONString, unexpected character escape.\n");
                     break;
                 }
             } else
@@ -189,7 +186,7 @@ JValue parseJSONString(ParseStream& ps) throw(ParseException) {
         return JValue(str);
     }
 
-    throw ParseException("parseJSONString", false);
+    throw ParseException("", false);
 }
 
 // Trying to specifically parse out a JSON boolean.
@@ -205,7 +202,7 @@ JValue parseJSONBool(ParseStream& ps) throw(ParseException) {
     else if (str.compare("false") == 0)
         return JValue(false);
 
-    throw ParseException("parseJSONBool", false);
+    throw ParseException("", false);
 }
 
 // Trying to specifically parse out the null JSON value.
@@ -218,7 +215,8 @@ JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
 
     if (str.compare("null") == 0)
         return JValue();
-    throw ParseException("parseJSONNull", false);
+
+    throw ParseException("", false);
 }
 
 // Attempting to perform a parse - and then backing up on an error.
@@ -244,13 +242,12 @@ JValue parseJSON(ParseStream& ps) throw(ParseException) {
     for (auto it = fns.begin(); it != fns.end(); it++) {
         try { return attemptParse(ps, *it); }
         catch (const ParseException& e) {
-            if (e.didMatch()) {
-                std::cout << e.what();
-            }
+            if (e.didMatch())
+                throw e;
         }
     }
 
-    throw ParseException("parseJSON");
+    throw ParseException("In parseJSON, failed to match.\n");
 }
 
 // Parsing out a block of JSON from a string.
