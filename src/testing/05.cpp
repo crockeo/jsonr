@@ -46,6 +46,8 @@ bool testSimpleObject(const JValue& simpleObject) {
     return false;
 }
 
+#include <iostream>
+
 // Testing the complex object.
 bool testComplexObject(const JValue& complexObject) {
     if (!complexObject.isObject())
@@ -58,7 +60,96 @@ bool testComplexObject(const JValue& complexObject) {
         return true;
 
     // Testing "index".
-    if (!map["index"].isNumber() || map["index"].jNumber() != 0)
+    if (!map["index"].isNumber() || (int)map["index"].jNumber() != 0)
+        return true;
+
+    // Testing "guid"
+    if (!map["guid"].isString() || map["guid"].jString().compare("1db598d0-3333-4aea-aa5e-4be986236e56") != 0)
+        return true;
+
+    // Testing "isActive"
+    if (!map["isActive"].isBool() || map["isActive"].jBool() != false)
+        return true;
+
+    // Testing "balance"
+    if (!map["balance"].isString() || map["balance"].jString().compare("$2,983.05") != 0)
+        return true;
+
+    // Testing "picture"
+    if (!map["picture"].isString() || map["picture"].jString().compare("http://placehold.it/32x32") != 0)
+        return true;
+
+    // Testing "age"
+    if (!map["age"].isNumber() || (int)map["age"].jNumber() != 34)
+        return true;
+
+    // Testing "eyeColor"
+    if (!map["eyeColor"].isString() || map["eyeColor"].jString().compare("brown") != 0)
+        return true;
+
+    // Testing "name"
+    if (!map["name"].isString() || map["name"].jString().compare("Hale Bridges") != 0)
+        return true;
+
+    // Testing "gender"
+    if (!map["gender"].isString() || map["gender"].jString().compare("male") != 0)
+        return true;
+
+    // Testing "company"
+    if (!map["company"].isString() || map["company"].jString().compare("ENTROPIX") != 0)
+        return true;
+
+    // Testing "email"
+    if (!map["email"].isString() || map["email"].jString().compare("halebridges@entropix.com") != 0)
+        return true;
+
+    // Testing "phone"
+    if (!map["phone"].isString() || map["phone"].jString().compare("+1 (879) 419-2839") != 0)
+        return true;
+
+    // Testing "address"
+    if (!map["address"].isString() || map["address"].jString().compare("256 Chester Court, Bergoo, Massachusetts, 3694") != 0)
+        return true;
+
+    // Testing "about"
+    if (!map["about"].isString() || map["about"].jString().compare("Fugiat cupidatat adipisicing sit laborum reprehenderit occaecat laboris eiusmod et. Cupidatat dolore occaecat eu voluptate laborum non esse et labore laboris elit dolor adipisicing. Dolore ex eu et id Lorem. Irure ullamco enim nisi et excepteur ad elit ut sint magna magna magna dolore. Amet nisi et aliqua adipisicing duis et proident do. Velit sit elit tempor eu. Eu anim aliquip laboris nisi aliqua irure proident do.\r\n") != 0)
+        return true;
+
+    // Testing "registered"
+    if (!map["registered"].isString() || map["registered"].jString().compare("2014-12-23T05:02:09 +05:00") != 0)
+        return true;
+
+    // Testing "latitude"
+    if (!map["latitude"].isNumber() || map["latitude"].jNumber() != 78.328387)
+        return true;
+
+    // Testing "longitude"
+    if (!map["longitude"].isNumber() || map["longitude"].jNumber() != -81.043504)
+        return true;
+
+    // Testing "tags"
+    if (map["tags"].isArray()) {
+        auto tags = map["tags"].jArray();
+
+        for (auto it = tags.begin(); it != tags.end(); it++)
+            std::cout << it->jString() << " ";
+        std::cout << std::endl;
+
+        if (!tags[0].isString() || tags[0].jString().compare("voluptate") != 0)
+            return true;
+        if (!tags[1].isString() || tags[1].jString().compare("incididunt") != 0)
+            return true;
+        if (!tags[2].isString() || tags[2].jString().compare("consectetur") != 0)
+            return true;
+        if (!tags[3].isString() || tags[3].jString().compare("consectetur") != 0)
+            return true;
+        if (!tags[4].isString() || tags[4].jString().compare("voluptate") != 0)
+            return true;
+        if (!tags[5].isString() || tags[5].jString().compare("dolore") != 0)
+            return true;
+        if (!tags[6].isString() || tags[6].jString().compare("in") != 0)
+            return true;
+    } else
         return true;
 
     return false;
