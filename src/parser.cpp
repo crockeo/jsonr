@@ -2,6 +2,7 @@
 
 //////////////
 // Includes //
+#include <iostream>
 #include <istream>
 #include <string>
 #include <vector>
@@ -18,11 +19,23 @@
 // Creating a parse exception.
 ParseException::ParseException(std::string type) {
     this->type = type;
+    this->matched = true;
+}
+
+// Creating a failed-to-match parse exception.
+ParseException::ParseException(std::string type, bool matched) {
+    this->type = type;
+    this->matched = matched;
 }
 
 // Returning a string to refer to this exception.
 const char* ParseException::what() const throw() {
-    return ("Failed to parse a " + this->type + " piece of JSON.").c_str();
+    return ("Failed to parse a " + this->type + " piece of JSON.\n").c_str();
+}
+
+// Returns if the ParseException matched.
+bool ParseException::didMatch() const {
+    return this->matched;
 }
 
 // Definitions for the functions.
@@ -67,7 +80,7 @@ JValue parseJSONObject(ParseStream& ps) throw(ParseException) {
         return JValue(valueMap);
     }
 
-    throw ParseException("parseJSONObject");
+    throw ParseException("parseJSONObject", false);
 }
 
 // Trying to specifically parse out a JSON array.
@@ -97,7 +110,7 @@ JValue parseJSONArray(ParseStream& ps) throw(ParseException) {
         return JValue(values);
     }
 
-    throw ParseException("parseJSONArray");
+    throw ParseException("parseJSONArray", false);
 }
 
 // Trying to specifically parse out a JSON number.
@@ -114,8 +127,12 @@ JValue parseJSONNumber(ParseStream& ps) throw(ParseException) {
             first = false;
         } else if (('0' <= c && c <= '9') || c == '.')
             str.push_back(c);
-        else
-            throw ParseException("parseJSONNumber");
+        else {
+            if (str.size() == 0)
+                throw ParseException("parseJSONNumber", false);
+            else
+                throw ParseException("parseJSONNumber");
+        }
     }
 
     return JValue(stod(str));
@@ -172,7 +189,7 @@ JValue parseJSONString(ParseStream& ps) throw(ParseException) {
         return JValue(str);
     }
 
-    throw ParseException("parseJSONString");
+    throw ParseException("parseJSONString", false);
 }
 
 // Trying to specifically parse out a JSON boolean.
@@ -188,7 +205,7 @@ JValue parseJSONBool(ParseStream& ps) throw(ParseException) {
     else if (str.compare("false") == 0)
         return JValue(false);
 
-    throw ParseException("parseJSONBool");
+    throw ParseException("parseJSONBool", false);
 }
 
 // Trying to specifically parse out the null JSON value.
@@ -201,7 +218,7 @@ JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
 
     if (str.compare("null") == 0)
         return JValue();
-    throw ParseException("parseJSONNull");
+    throw ParseException("parseJSONNull", false);
 }
 
 // Attempting to perform a parse - and then backing up on an error.
@@ -226,7 +243,11 @@ JValue parseJSON(ParseStream& ps) throw(ParseException) {
 
     for (auto it = fns.begin(); it != fns.end(); it++) {
         try { return attemptParse(ps, *it); }
-        catch (const ParseException& e) { }
+        catch (const ParseException& e) {
+            if (e.didMatch()) {
+                std::cout << e.what();
+            }
+        }
     }
 
     throw ParseException("parseJSON");
