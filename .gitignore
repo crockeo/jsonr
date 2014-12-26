@@ -7,7 +7,7 @@ CTestTestFile.cmake
 Testing/
 
 # Ignoring the build file.
-Development/
+build/
 
 # Un-ignoring the source-testing directory.
 !src/testing/
