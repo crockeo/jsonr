@@ -8,6 +8,8 @@ set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/build/")
 # Setting the C++11 flag.
 set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -O2 ${CMAKE_CXX_FLAGS}")
 
+set(CMAKE_MACOSX_RPATH /usr/local/lib)
+
 # Adding the library.
 set(JSONR_SOURCES src/jsonr/parseexception.cpp
                   src/jsonr/parsestream.cpp
