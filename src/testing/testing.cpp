@@ -2,12 +2,12 @@
 // Includes //
 #include <iostream>
 
-#include "testing/00.hpp"
-#include "testing/01.hpp"
-#include "testing/02.hpp"
-#include "testing/03.hpp"
-#include "testing/04.hpp"
-#include "testing/05.hpp"
+#include "00.hpp"
+#include "01.hpp"
+#include "02.hpp"
+#include "03.hpp"
+#include "04.hpp"
+#include "05.hpp"
 
 //////////
 // Code //

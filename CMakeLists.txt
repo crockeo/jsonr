@@ -9,22 +9,26 @@ set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/build/lib")
 set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
 
 # Adding the library.
-add_library(jsonr "src/parsestream.cpp"
-                  "src/streamutils.cpp"
-                  "src/parser.cpp"
-                  "src/json.cpp"
-                  "src/load.cpp")
+set(JSONR_SOURCES src/jsonr/parsestream.cpp
+                  src/jsonr/streamutils.cpp
+                  src/jsonr/parser.cpp
+                  src/jsonr/json.cpp
+                  src/jsonr/load.cpp)
+
+add_library(jsonr SHARED ${JSONR_SOURCES})
 
 # Setting up testing.
-add_executable(testing "src/testing.cpp")
+add_executable(testing src/testing/testing.cpp)
 
-add_library(testing-lib "src/testing/utils.cpp"
-                        "src/testing/00.cpp"
-                        "src/testing/01.cpp"
-                        "src/testing/02.cpp"
-                        "src/testing/03.cpp"
-                        "src/testing/04.cpp"
-                        "src/testing/05.cpp")
+set(TESTING_LIB_SOURCES src/testing/utils.cpp
+                        src/testing/00.cpp
+                        src/testing/01.cpp
+                        src/testing/02.cpp
+                        src/testing/03.cpp
+                        src/testing/04.cpp
+                        src/testing/05.cpp)
+
+add_library(testing-lib ${TESTING_LIB_SOURCES})
 
 target_link_libraries(testing jsonr testing-lib)
 
@@ -37,3 +41,14 @@ add_test(parseJSONNumber build/bin/testing 2)
 add_test(parseJSONArray  build/bin/testing 3)
 add_test(parseJSONNull   build/bin/testing 4)
 add_test(parseJSONObject build/bin/testing 5)
+
+# Adding installation.
+install(TARGETS jsonr
+        LIBRARY DESTINATION lib)
+
+install(DIRECTORY src/jsonr/
+        DESTINATION include/jsonr
+        FILES_MATCHING PATTERN *.hpp)
+
+install(FILES src/cmake/Findjsonr.cmake
+        DESTINATION "${CMAKE_ROOT}/Modules")

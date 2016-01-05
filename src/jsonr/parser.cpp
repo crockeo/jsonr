@@ -38,7 +38,7 @@ bool ParseException::didMatch() const {
 // Definitions for the functions.
 JValue parseJSONObject( ParseStream&) throw (ParseException);
 JValue parseJSONArray ( ParseStream&) throw (ParseException);
-JValue parseJSONNumbe ( ParseStream&) throw (ParseException);
+JValue parseJSONNumber( ParseStream&) throw (ParseException);
 JValue parseJSONString( ParseStream&) throw (ParseException);
 JValue parseJSONBool  ( ParseStream&) throw (ParseException);
 JValue parseJSONNull  ( ParseStream&) throw (ParseException);
@@ -231,13 +231,17 @@ JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(Pars
 
 // Parsing out a block of JSON from a ParseStream.
 JValue parseJSON(ParseStream ps) throw(ParseException) {
-    std::vector<JValue (*)(ParseStream&)> fns;
-    fns.push_back(&parseJSONObject);
-    fns.push_back(&parseJSONArray);
-    fns.push_back(&parseJSONNumber);
-    fns.push_back(&parseJSONString);
-    fns.push_back(&parseJSONBool);
-    fns.push_back(&parseJSONNull);
+    if (ps.eof())
+        throw ParseException("Empty parse stream.");
+
+    std::vector<JValue (*)(ParseStream&)> fns {
+        &parseJSONObject,
+        &parseJSONArray,
+        &parseJSONNumber,
+        &parseJSONString,
+        &parseJSONBool,
+        &parseJSONNull   
+    };
 
     for (auto it = fns.begin(); it != fns.end(); it++) {
         try { return attemptParse(ps, *it); }

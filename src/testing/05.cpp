@@ -4,8 +4,8 @@
 // Includes //
 #include <fstream>
 
-#include "../parser.hpp"
-#include "../json.hpp"
+#include "../jsonr/parser.hpp"
+#include "../jsonr/json.hpp"
 
 //////////
 // Code //

@@ -5,6 +5,8 @@ CMakeFiles/
 Makefile
 CTestTestFile.cmake
 Testing/
+install_manifest.txt
+
 
 # Ignoring the build file.
 build/
