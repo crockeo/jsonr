@@ -11,11 +11,13 @@
 //////////
 // Code //
 
-// Loading a JSON file from a given path.
-JValue loadJSON(std::string path) {
-    std::ifstream in(path);
-    if (!in.good())
-        return JValue();
+namespace jsonr {
+    // Loading a JSON file from a given path.
+    JValue loadJSON(std::string path) {
+        std::ifstream in(path);
+        if (!in.good())
+            return JValue();
 
-    return parseJSON(in);
+        return parseJSON(in);
+    }
 }

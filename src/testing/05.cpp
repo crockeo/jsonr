@@ -10,6 +10,8 @@
 //////////
 // Code //
 
+using namespace jsonr;
+
 // Testing the empty object.
 bool testEmptyObject(const JValue& emptyObject) {
     if (!emptyObject.isObject())

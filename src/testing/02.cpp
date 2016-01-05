@@ -9,6 +9,8 @@
 //////////
 // Code //
 
+using namespace jsonr;
+
 // Testing the parseJSON function for parsing a number.
 int runTest02() {
     JValue positiveVal = parseJSON("12345");

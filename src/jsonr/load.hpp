@@ -10,7 +10,9 @@
 //////////
 // Code //
 
-// Loading a JSON file from a given path.
-JValue loadJSON(std::string);
+namespace jsonr {
+    // Loading a JSON file from a given path.
+    JValue loadJSON(std::string);
+}
 
 #endif

@@ -11,6 +11,8 @@
 //////////
 // Code //
 
+using namespace jsonr;
+
 // Testing the empty array.
 bool testEmptArray(const JValue& emptArray) {
     return !(emptArray.isArray() && emptArray.jArray().size() == 0);

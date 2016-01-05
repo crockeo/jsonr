@@ -8,14 +8,16 @@
 //////////
 // Code //
 
-// Checking if a given character has whitespace in it.
-bool isWhitespace(char);
+namespace jsonr {
+    // Checking if a given character has whitespace in it.
+    bool isWhitespace(char);
 
-// Checking if a given character is a delimiter.
-bool isDelimiter(char);
+    // Checking if a given character is a delimiter.
+    bool isDelimiter(char);
 
-// Consuming all of the whitespace in a ParseStream until it reaches a
-// non-whitespace character.
-int consumeWhitespace(ParseStream&);
+    // Consuming all of the whitespace in a ParseStream until it reaches a
+    // non-whitespace character.
+    int consumeWhitespace(ParseStream&);
+}
 
 #endif

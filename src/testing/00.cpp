@@ -10,6 +10,8 @@
 //////////
 // Code //
 
+using namespace jsonr;
+
 // Testing the parseJSON function for parsing a boolean.
 int runTest00() {
     JValue tVal = parseJSON("true");

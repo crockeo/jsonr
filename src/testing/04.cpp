@@ -8,6 +8,8 @@
 //////////
 // Code //
 
+using namespace jsonr;
+
 // Attempting to test parseJSON for 'null' values.
 int runTest04() {
     JValue jNull;
