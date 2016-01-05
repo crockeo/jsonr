@@ -8,10 +8,13 @@
 // Code //
 
 // Constructing a parse stream from a string.
-ParseStream::ParseStream(std::string str) : data(str) { }
+ParseStream::ParseStream(std::string str) :
+        data(str),
+        loc(0) { }
 
 // Constructing an empty parse strema.
-ParseStream::ParseStream() { this->data = ""; }
+ParseStream::ParseStream() :
+        ParseStream("") { }
 
 // Returns true when there are no more characters to consume or peek.
 bool ParseStream::eof() const { return this->loc >= this->data.size(); }

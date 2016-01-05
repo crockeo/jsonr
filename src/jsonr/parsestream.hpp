@@ -10,6 +10,10 @@
 
 // A stream to represent some kind of input.
 class ParseStream {
+private:
+    std::string data;
+    int loc;
+
 public:
     // Constructing a parse stream from a string.
     ParseStream(std::string);
@@ -40,10 +44,6 @@ public:
 
     // Accessing the location.
     int getLoc() const;
-
-private:
-    std::string data;
-    int loc;
 };
 
 #endif
