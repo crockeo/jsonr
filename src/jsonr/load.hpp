@@ -3,6 +3,7 @@
 
 //////////////
 // Includes //
+#include <exception>
 #include <string>
 
 #include "json.hpp"
@@ -12,7 +13,7 @@
 
 namespace jsonr {
     // Loading a JSON file from a given path.
-    JValue loadJSON(std::string);
+    JValue loadJSON(std::string) throw(std::runtime_error);
 }
 
 #endif

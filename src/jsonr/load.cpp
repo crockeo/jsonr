@@ -13,10 +13,10 @@
 
 namespace jsonr {
     // Loading a JSON file from a given path.
-    JValue loadJSON(std::string path) {
+    JValue loadJSON(std::string path) throw(std::runtime_error) {
         std::ifstream in(path);
         if (!in.good())
-            return JValue();
+            throw std::runtime_error("Could not open file for JSON parsing: " + path);
 
         return parseJSON(in);
     }
