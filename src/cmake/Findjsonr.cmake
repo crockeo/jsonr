@@ -5,7 +5,7 @@
 #   Finding jsonr after it has been installed.
 
 # Finding the include directory.
-find_path(JSONR_INCLUDE_DIRS jsonr.h
+find_path(JSONR_INCLUDE_DIRS jsonr.hpp
   PATHS /usr/local/include
 )
 
@@ -19,5 +19,5 @@ find_library(JSONR_LIBRARIES
 
 # Making sure we have everything. 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(lentil-core REQUIRED_VARS JSONR_INCLUDE_DIRS
-                                                            JSONR_LIBRARIES)
+find_package_handle_standard_args(jsonr REQUIRED_VARS JSONR_INCLUDE_DIRS
+                                                      JSONR_LIBRARIES)

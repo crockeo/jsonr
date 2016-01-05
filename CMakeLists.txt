@@ -51,5 +51,8 @@ install(DIRECTORY src/jsonr/
         DESTINATION include/jsonr
         FILES_MATCHING PATTERN *.hpp)
 
+install(FILES src/jsonr.hpp
+        DESTINATION include)
+
 install(FILES src/cmake/Findjsonr.cmake
         DESTINATION "${CMAKE_ROOT}/Modules")
