@@ -2,6 +2,7 @@
 
 //////////////
 // Includes //
+#include <functional>
 #include <istream>
 #include <string>
 #include <vector>
@@ -14,26 +15,6 @@
 
 //////////
 // Code //
-
-// Creating a parse exception.
-ParseException::ParseException(std::string type) {
-    this->type = type;
-    this->matched = true;
-}
-
-// Creating a failed-to-match parse exception.
-ParseException::ParseException(std::string type, bool matched) {
-    this->type = type;
-    this->matched = matched;
-}
-
-// Returning a string to refer to this exception.
-const char* ParseException::what() const throw() { return this->type.c_str(); }
-
-// Returns if the ParseException matched.
-bool ParseException::didMatch() const {
-    return this->matched;
-}
 
 // Definitions for the functions.
 JValue parseJSONObject( ParseStream&) throw (ParseException);
@@ -119,10 +100,9 @@ JValue parseJSONNumber(ParseStream& ps) throw(ParseException) {
     while (!ps.eof() && !isDelimiter(ps.peek())) {
         char c = ps.consume();
 
-        if (first && c == '-') {
+        if (first && c == '-')
             str.push_back(c);
-            first = false;
-        } else if (('0' <= c && c <= '9') || c == '.')
+        else if (('0' <= c && c <= '9') || c == '.')
             str.push_back(c);
         else {
             if (str.size() == 0)
@@ -130,6 +110,8 @@ JValue parseJSONNumber(ParseStream& ps) throw(ParseException) {
             else
                 throw ParseException("In parseJSONNumber, unexpected characters.\n");
         }
+
+        first = false;
     }
 
     return JValue(stod(str));
@@ -220,7 +202,7 @@ JValue parseJSONNull(ParseStream& ps) throw(ParseException) {
 }
 
 // Attempting to perform a parse - and then backing up on an error.
-JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(ParseException) {
+JValue attemptParse(ParseStream& ps, std::function<JValue(ParseStream&)> parseFn) throw(ParseException) {
     int sl = ps.getLoc();
     try { return parseFn(ps); }
     catch (const ParseException& e) {
@@ -230,11 +212,11 @@ JValue attemptParse(ParseStream& ps, JValue (*parseFn)(ParseStream&)) throw(Pars
 }
 
 // Parsing out a block of JSON from a ParseStream.
-JValue parseJSON(ParseStream ps) throw(ParseException) {
+JValue parseJSON(ParseStream& ps) throw(ParseException) {
     if (ps.eof())
         throw ParseException("Empty parse stream.");
 
-    std::vector<JValue (*)(ParseStream&)> fns {
+    std::vector<std::function<JValue(ParseStream&)>> fns {
         &parseJSONObject,
         &parseJSONArray,
         &parseJSONNumber,
