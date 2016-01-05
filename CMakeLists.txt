@@ -6,7 +6,7 @@ set(EXECUTABLE_OUTPUT_PATH "${PROJECT_BINARY_DIR}/build/bin")
 set(LIBRARY_OUTPUT_PATH "${PROJECT_BINARY_DIR}/build/lib")
 
 # Setting the C++11 flag.
-set(CMAKE_CXX_FLAGS "-std=c++11 ${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "-std=c++11 -Wall -O2 ${CMAKE_CXX_FLAGS}")
 
 # Adding the library.
 set(JSONR_SOURCES src/jsonr/parsestream.cpp
